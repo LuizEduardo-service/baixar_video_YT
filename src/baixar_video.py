@@ -7,17 +7,21 @@ import re
 class GeradorDeVideoYT():
     def __init__(self, link: str) -> None:
         self.link = link
-        self.resolucao = ["720p", "480p", "360p", "240p", "144p"]
 
     def valida_link(self):
         pass
 
     def dados_do_video(self):
-        video = YouTube(self.link)
-        ttl_video = video.title
-        resolucao = video.streams.all()
-        import ipdb;ipdb.set_trace()
-        print(resolucao)
+        try:
+            video = YouTube(self.link)
+            ttl_video = video.title
+            img = video.thumbnail_url
+            resolucao: list = [stream.resolution for stream in video.streams.filter(progressive=True).all()]
+            return {'titulo': ttl_video, 'imagem': img, 'resolucao': resolucao}
+            
+        
+        except Exception as e:
+            messagebox.showerror('Erro', 'Não foi possivel localizar as informações!\nVerifique e tente novamente.')
 
     def baixar_video(self):
         video = YouTube(self.link)
@@ -47,4 +51,5 @@ class GeradorDeVideoYT():
 
                 
 
-GeradorDeVideoYT('https://www.youtube.com/watch?v=v_3DZYJmtfE').dados_do_video()
+saida = GeradorDeVideoYT('https://www.youtube.com/watch?v=YYhqjUaRLzo').dados_do_video()
+print(saida)
