@@ -79,7 +79,7 @@ class TelaPrincial():
 
     def pesquisar_link_video(self):
         if self.var_link.get() != "":
-            self.cb_resolucao.select_clear()
+            self.cb_resolucao.set('')
             self.var_ttl_video.set('')
             self.tumbnail.configure(image='')
             dados_video =GeradorDeVideoYT()
